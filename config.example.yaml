@@ -1,0 +1,15 @@
+# Site to be searched (see available provides in Torrents/)
+search: Btjunkie
+# Program to launch for direct-download
+downloader: transmission-gtk
+# List of series
+# Launching program with any of the indices will check for new episodes for those series
+# Launching it without any indices will check all
+# Name is the string that will be searched for on the torrent site
+series:
+  po:
+    name: "Pioneer One"
+    location: "/mnt/TV-Series/Pioneer One"
+  ms:
+    name: "My Favorite Series"
+    location: "/home/user/video/Best-Series-Ever"
