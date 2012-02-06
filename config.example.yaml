@@ -1,5 +1,5 @@
 # Site to be searched (see available provides in Torrents/)
-search: Btjunkie
+search: Pirate
 # Program to launch for direct-download
 downloader: transmission-gtk
 # List of series
