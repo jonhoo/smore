@@ -48,9 +48,12 @@ sub search {
     $torrent =~ s{</font>}{}g;
     $torrent =~ s{^.*class="BlckUnd">}{}g;
     $torrent =~ s{</div></td>.*}{}g;
-    $torrent =~ /^(.*?)<.*?(\d+)$/;
+    $torrent =~ /^(.*?)<.*?(\d*)$/;
 
-    my $rating = $2/999;
+    my $rating = 0.5;
+    if (defined $2 and $2 =~ /^\d+$/) {
+      $rating = $2/999;
+    }
     $rating = 0 if $rating < 0;
     $rating = 1 if $rating > 1;
     push @torrents, {
