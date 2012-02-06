@@ -108,7 +108,7 @@ for my $s (@lookup) {
       defined (my $kid = fork) or print "Could not start download process: $!\n";
       if (!$kid) {
         setsid or die "Can't start a new session: $!";
-        exec($config->{'downloader'}, $latest[0]->{'url'});
+        exec($config->{'downloader'}, $latest[0]->{'url'}) or die("Failed to launch download program " . $config->{'downloader'} . "... Sorry.\n");
       }
 
       print "Your torrent program should have opened, and prompted you to start the download. Enjoy!\n";
