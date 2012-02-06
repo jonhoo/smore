@@ -4,15 +4,23 @@ use warnings;
 use File::Find;
 use YAML::Syck;
 use POSIX 'setsid';
+use File::Basename;
 
 $YAML::Syck::ImplicitTyping = 1;
+my $dirname = dirname(__FILE__);
 
-my $config = LoadFile('config.yaml');
+my $configFile = undef;
+$configFile = "$dirname/config.yaml" if -e "$dirname/config.yaml";
+$configFile = $ENV{'HOME'} . '/.smore.yaml' if -e $ENV{'HOME'} . '/.smore.yaml';
+$configFile = './config.yaml' if -e './config.yaml';
+
+my $config = LoadFile($configFile);
 my $series = $config->{'series'};
 
 my @lookup = @ARGV;
 @lookup = keys %{ $series } if @ARGV == 0;
 
+chdir dirname(__FILE__);
 eval "use Torrents::" . $config->{'search'} . ";";
 
 my @latest = ("", 0, 0);
