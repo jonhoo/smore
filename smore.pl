@@ -38,6 +38,8 @@ sub se {
   $filename =~ s/720p//g;
   $filename =~ s/1080p//g;
   $filename =~ s/1080i//g;
+  $filename =~ s/x264//g;
+  $filename =~ s/h264//g;
 
   $filename =~ s/^.*\[(\d+)\.(\d+)\]/S$1E$2 /g;
   while ( $filename =~ /\.(.*)\./ ) {
