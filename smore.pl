@@ -32,6 +32,8 @@ sub se {
 
   my $filename = $origfilename;
 
+  $filename =~ s/\.\d+\.TPB//g;
+
   $filename =~ s/_/ /g;
   $filename =~ s/\b\d{4}\b//g;
   $filename =~ s/480p//g;
