@@ -38,7 +38,7 @@ Returns an arrayref of hashrefs, each containing:
 sub search {
   my $query = shift;
   $query = uri_escape($query);
-  my @online = `curl -s http://thepiratebay.se/search/$query | grep "detLink" | grep 'a href="/torrent'`;
+  my @online = `curl -s http://thepiratebay.se/search/$query/0/7/0 | grep "detLink" | grep 'a href="/torrent'`;
   my @torrents = ();
   for my $torrent (@online) {
     chomp $torrent;
