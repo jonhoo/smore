@@ -99,10 +99,13 @@ for my $s (@lookup) {
   @latest = ('', 0, 0);
 
   foreach my $torrent (@{ search($hit->{'name'}) }) {
-    if ($torrent->{'quality'} > 0.1) {
-      &se($torrent->{'name'}, $torrent);
+    if ($torrent->{'quality'} < 0.1) {
+      print STDERR "Skipping episode with low ranking (" . $torrent->{'quality'} . "): " . $torrent->{'name'} . "\n" if $debug;
+    } elsif ($hit->{'hd'} && $torrent->{'name'} !~ /((720|1080)p|blu-?ray)/i) {
+      print STDERR "Skipping non-HD file: " . $torrent->{'name'} . "\n" if $debug;
     } else {
-      #print STDERR "Skipping episode with low ranking (${torrent->{'quality'}}): ${torrent->{'name'}}\n";
+      print STDERR "Considering porential HD file: " . $torrent->{'name'} . "\n" if $hit->{'hd'} && $debug;
+      &se($torrent->{'name'}, $torrent);
     }
   }
 

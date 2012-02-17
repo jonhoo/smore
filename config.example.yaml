@@ -6,6 +6,7 @@ downloader: transmission-gtk
 # Launching program with any of the indices will check for new episodes for those series
 # Launching it without any indices will check all
 # Name is the string that will be searched for on the torrent site
+# hd can be set to true to only search for HD episodes
 series:
   po:
     name: "Pioneer One"
@@ -13,3 +14,4 @@ series:
   ms:
     name: "My Favorite Series"
     location: "/home/user/video/Best-Series-Ever"
+    hd: true
