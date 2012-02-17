@@ -2,6 +2,10 @@
 search: Pirate
 # Program to launch for direct-download
 downloader: transmission-gtk
+# Set to false to receive terser output
+verbose: true
+# Set to true to see loads of output
+#debug: false
 # List of series
 # Launching program with any of the indices will check for new episodes for those series
 # Launching it without any indices will check all

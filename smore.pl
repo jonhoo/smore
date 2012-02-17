@@ -17,6 +17,9 @@ $configFile = './config.yaml' if -e './config.yaml';
 my $config = LoadFile($configFile);
 my $series = $config->{'series'};
 
+my $debug = $config->{'debug'};
+my $verbose = $config->{'verbose'};
+
 my @lookup = @ARGV;
 @lookup = keys %{ $series } if @ARGV == 0;
 
@@ -83,15 +86,15 @@ sub processFile {
 
 my $i = 0;
 for my $s (@lookup) {
-  print "\n" if $i++ > 0;
+  print "\n" if $i++ > 0 && $verbose;
 
   if (!exists $series->{$s}) {
-    print "Found no matching series for '$s'...\n";
+    print "Found no matching series for '$s'...\n" if $verbose;
     next;
   }
 
   my $hit = $series->{$s};
-  print "Looking up newest episode for " . $hit->{'name'} . "...\n";
+  print "Looking up newest episode for " . $hit->{'name'} . "...\n" if $verbose;
 
   @latest = ('', 0, 0);
   find ( \&processFile, $hit->{'location'} );
@@ -110,24 +113,35 @@ for my $s (@lookup) {
   }
 
   if ($latest[1] < $localLatest[1] || ($latest[1] == $localLatest[1] && $latest[2] <= $localLatest[2])) {
-    print "No new episodes, sorry... (latest: ${latest[1]}:${latest[2]})\n";
+    print "No new episodes, sorry... (latest: ${latest[1]}:${latest[2]})\n" if $debug;
     next;
   }
 
-  print "New episode out! (local: ${localLatest[1]}:${localLatest[2]}, latest: ${latest[1]}:${latest[2]})\n";
-  print "Download .torrent here: ${latest[0]->{'url'}}\n";
-  
+  if ($verbose) {
+    print "New episode out! (local: ${localLatest[1]}:${localLatest[2]}, latest: ${latest[1]}:${latest[2]})\n";
+  } else {
+    print "New episode for '" . $hit->{'name'} . "' (${latest[1]}:${latest[2]})\n";
+  }
+
   if (direct() and defined $config->{'downloader'}) {
-    print "Do you want me to start the download automatically? [Y/n] ";
+    if ($verbose) {
+      print "Do you want me to start the download automatically? [Y/n/s(kip)] ";
+    } else {
+      print "Start [Y/n/s] ";
+    }
     my $yes = <STDIN>;
-    if ($yes !~ /^[nN]/) {
+    if ($yes =~ /^\s*(y.*)?$/i) {
       defined (my $kid = fork) or print "Could not start download process: $!\n";
       if (!$kid) {
         setsid or die "Can't start a new session: $!";
         exec($config->{'downloader'}, $latest[0]->{'url'}) or die("Failed to launch download program " . $config->{'downloader'} . "... Sorry.\n");
       }
 
-      print "Your torrent program should have opened, and prompted you to start the download. Enjoy!\n";
+      print "Your torrent program should have opened, and prompted you to start the download. Enjoy!\n" if $verbose;
+    } elsif ($yes !~ /^s/i) {
+      print "Download here: ${latest[0]->{'url'}}\n";
     }
+  } else {
+    print "Download here: ${latest[0]->{'url'}}\n";
   }
 }
