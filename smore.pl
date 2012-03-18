@@ -107,7 +107,8 @@ for my $s (@lookup) {
     } elsif ($hit->{'hd'} && $torrent->{'name'} !~ /((720|1080)p|blu-?ray)/i) {
       print STDERR "Skipping non-HD file: " . $torrent->{'name'} . "\n" if $debug;
     } else {
-      print STDERR "Considering porential HD file: " . $torrent->{'name'} . "\n" if $hit->{'hd'} && $debug;
+      print STDERR "Considering potential HD file: " . $torrent->{'name'} . "\n" if $hit->{'hd'} && $debug;
+      print STDERR "Considering potential file: " . $torrent->{'name'} . "\n" if not $hit->{'hd'} && $debug;
       &se($torrent->{'name'}, $torrent);
     }
   }
