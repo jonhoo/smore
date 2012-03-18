@@ -108,7 +108,7 @@ for my $s (@lookup) {
       print STDERR "Skipping non-HD file: " . $torrent->{'name'} . "\n" if $debug;
     } else {
       print STDERR "Considering potential HD file: " . $torrent->{'name'} . "\n" if $hit->{'hd'} && $debug;
-      print STDERR "Considering potential file: " . $torrent->{'name'} . "\n" if not $hit->{'hd'} && $debug;
+      print STDERR "Considering potential file: " . $torrent->{'name'} . "\n" if (not $hit->{'hd'}) && $debug;
       &se($torrent->{'name'}, $torrent);
     }
   }
