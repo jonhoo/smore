@@ -99,6 +99,7 @@ for my $s (@lookup) {
   @latest = ('', 0, 0);
   find ( \&processFile, $hit->{'location'} );
   my @localLatest = ($latest[0], $latest[1], $latest[2]);
+  printf "Latest local found is %d:%d\n", $localLatest[1], $localLatest[2] if $debug;
   @latest = ('', 0, 0);
 
   foreach my $torrent (@{ search($hit->{'name'}) }) {
